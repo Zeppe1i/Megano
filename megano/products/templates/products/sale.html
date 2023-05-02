@@ -1,0 +1,65 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Megano Sales
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="{% url 'shop:index' %}">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Sales</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section">
+      <div class="wrap">
+        <div class="Cards Cards_blog">
+
+          <!-- Получаем товар по скидке -->
+          {% for sale in sales %}
+            <div v-for="card in salesCards" class="Card">
+              <a class="Card-picture" href="{% url 'shop:product' sale.pk %}">
+                <img src="{{ sale.image.url }}" alt="{{ sale.name }}"/>
+              </a>
+              <div class="Card-content">
+                <strong class="Card-title"><a href="{% url 'shop:product' sale.pk %}">{{ sale.name }}</a>
+                </strong>
+                <div class="Card-description"><s><{{ sale.prices.price }}</s></div>
+                <br>
+                <div class="Card-description">{{ sale.prices.old_price }}</div>
+              </div>
+            </div>
+          {% endfor %}
+          <!-- Получаем товар по скидке -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Доработать апгинацию!  -->
+  <div class="Pagination">
+    <div class="Pagination-ins">
+      {% for page in sales.paginator.page_range %}
+        <a
+          class="Pagination-element Pagination-element_prev"
+          href="{% url 'shop:sale-page' page %}"
+        >
+          {{ page }}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- Доработать апгинацию!  -->
+
+{% endblock %}
+
+{% block mixins %}
+  <script src="{% static 'frontend/assets/js/sales.js' %}"></script>
+{% endblock %}
